@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="500">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnClick motion:targetId="@+id/circularImag_def2"  />
+
+    </Transition>
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="500">
+        <KeyFrameSet>
+        </KeyFrameSet>
+        <OnClick motion:targetId="@+id/fragmentHome_imgCollapseRelativeLayout"  />
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@+id/fragmentHome_relativeLocationActions"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent" />
+        <Constraint
+            android:id="@+id/fragmentHome_imgCollapseRelativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@id/circularImag_def2"
+            motion:layout_constraintLeft_toLeftOf="@id/circularImag_def2"
+            motion:layout_constraintRight_toRightOf="@id/circularImag_def2"
+            motion:layout_constraintTop_toTopOf="@id/circularImag_def2"
+            android:rotation="180" />
+    </ConstraintSet>
+</MotionScene>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.locationsaver.fragments.HomeFragment"
+        android:label="Google map"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_saveLocationActivity"
+            app:destination="@id/saveLocationActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchForPlaceFragment"
+            app:destination="@id/searchForPlaceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_blankFragment"
+            app:destination="@id/blankFragment" />
+        <argument
+            android:name="longitude"
+            app:argType="string"
+            android:defaultValue="-1" />
+        <argument
+            android:name="latitude"
+            app:argType="string"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.locationsaver.fragments.FavouriteFragment"
+        android:label="Favorite Locations"
+        tools:layout="@layout/fragment_faavourite" />
+    <fragment
+        android:id="@+id/locationsFragment"
+        android:name="com.example.locationsaver.fragments.LocationsFragment"
+        android:label="Saved Locations"
+        tools:layout="@layout/fragment_locations" />
+    <fragment
+        android:id="@+id/saveLocationActivity"
+        android:name="com.example.locationsaver.fragments.SaveLocationActivity"
+        android:label="Save Location">
+        <argument
+            android:name="logitude"
+            android:defaultValue="-1"
+            app:argType="string" />
+        <argument
+            android:name="latitude"
+            android:defaultValue="-1"
+            app:argType="string" />
+        <argument
+            android:name="address"
+            android:defaultValue="-1"
+            app:argType="string" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string"
+            android:defaultValue="-1" />
+        <argument
+            android:name="comeStatus"
+            android:defaultValue="-1"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_saveLocationActivity_to_webSearchActivity"
+            app:destination="@id/webSearchActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/webSearchActivity"
+        android:name="com.example.locationsaver.fragments.WebSearchActivity"
+        android:label="WebSearchActivity" >
+        <action
+            android:id="@+id/action_webSearchActivity_to_saveLocationActivity"
+            app:destination="@id/saveLocationActivity"
+            app:popUpTo="@id/saveLocationActivity"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/searchForPlaceFragment"
+        android:name="com.example.locationsaver.fragments.SearchForPlaceFragment"
+        android:label="SearchForPlaceFragment" >
+        <action
+            android:id="@+id/action_searchForPlaceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.example.locationsaver.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" >
+        <action
+            android:id="@+id/action_blankFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

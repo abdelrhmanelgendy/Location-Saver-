@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="395dp"
+    android:layout_height="wrap_content"
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="380dp"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/custome_searched_item_searchItem_def1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="#7ED3D2D2"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_history_24"
+            app:tint="@color/whiteBlue"
+            app:layout_constraintBottom_toBottomOf="@id/custome_searched_item_searchItem_def1"
+            app:layout_constraintEnd_toEndOf="@id/custome_searched_item_searchItem_def1"
+            app:layout_constraintStart_toStartOf="@id/custome_searched_item_searchItem_def1"
+            app:layout_constraintTop_toTopOf="@id/custome_searched_item_searchItem_def1" />
+
+        <TextView
+            android:id="@+id/custome_searched_item_searchItem_TV_enteredText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:maxEms="3"
+            android:maxLines="1"
+            android:text="itaelbaroudelbaroudelbaroudelbaroudelbaroudelbaroudelbaroud"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/custome_searched_item_searchItem_def1"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/custome_searched_item_searchItem_TV_actualResult"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:maxEms="3"
+            android:maxLines="1"
+            android:text="woifoqwiehowefiqwfiqwihoqwfhoiqwfohi"
+            android:textColor="@color/midGray"
+            android:textSize="17dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/custome_searched_item_searchItem_def1"
+            app:layout_constraintTop_toBottomOf="@id/custome_searched_item_searchItem_TV_enteredText"
+            tools:ignore="RtlCompat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

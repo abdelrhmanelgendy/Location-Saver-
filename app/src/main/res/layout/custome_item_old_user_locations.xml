@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="110dp"
+    android:layout_height="110dp"
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp"
+
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="2dp"
+            android:id="@+id/custome_item_userOldLocation_imgLocation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:src="@drawable/defaul_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:padding="2dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/custome_item_userOldLocation_txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:text="ضصيضصيضصيضصيضصيضصيضصيضصي"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/custome_item_userOldLocation_imgLocation" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

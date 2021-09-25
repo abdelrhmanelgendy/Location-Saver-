@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        app:showAsAction="never"
+        android:id="@+id/mapType_ROADMAP"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="default" />
+    <item
+        android:id="@+id/mapType_SATELLITE"
+        android:icon="@drawable/ic_baseline_satellite_24"
+        android:title="satellite" />
+</menu>

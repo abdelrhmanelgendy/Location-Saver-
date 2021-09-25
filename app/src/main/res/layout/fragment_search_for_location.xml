@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/fragmentSearch_ET_search"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounden_edite_txt_with_border"
+            android:hint="Search for Place, city, location"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="45dp"
+            android:paddingEnd="14dp"
+            android:textColor="@color/midGray"
+            android:textSize="18dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlCompat" />
+
+        <ImageView
+            android:id="@+id/fragmentSearch_btnBack"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@id/fragmentSearch_ET_search"
+            app:layout_constraintStart_toStartOf="@id/fragmentSearch_ET_search"
+            app:layout_constraintTop_toTopOf="@id/fragmentSearch_ET_search"
+            app:tint="@color/whiteGray"
+            tools:ignore="RtlCompat" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fragmentSearch_cardView_Result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragmentSearch_ET_search">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+
+                    android:id="@+id/searchItem_def1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="#D3D2D2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_baseline_not_listed_location_24"
+                    app:layout_constraintBottom_toBottomOf="@id/searchItem_def1"
+                    app:layout_constraintEnd_toEndOf="@id/searchItem_def1"
+                    app:layout_constraintStart_toStartOf="@id/searchItem_def1"
+                    app:layout_constraintTop_toTopOf="@id/searchItem_def1" />
+
+                <TextView
+                    android:id="@+id/fragmentSearch_cardView_TV_textEntered"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:maxEms="3"
+                    android:maxLines="1"
+                    android:text="itaelbaroudelbaroudelbaroudelbaroudelbaroudelbaroudelbaroud"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/searchItem_def1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlCompat" />
+
+                <TextView
+                    android:id="@+id/fragmentSearch_cardView_TV_textActualResult"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="2dp"
+                    android:maxEms="3"
+                    android:maxLines="1"
+                    android:text="woifoqwiehowefiqwfiqwihoqwfhoiqwfohi"
+                    android:textColor="@color/midGray"
+                    android:textSize="17dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/searchItem_def1"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentSearch_cardView_TV_textEntered"
+                    tools:ignore="RtlCompat" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/fragmentSearch_layout_noResultFound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="220dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragmentSearch_ET_search">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_baseline_search_off_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="No Result Found try \nuse different place name"
+                android:textSize="22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragmentSearch_ET_search" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragmentSearch_layout_OldItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragmentSearch_ET_search"
+
+            >
+
+            <TextView
+                android:id="@+id/fragmentSearch_txtDef"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="3dp"
+                android:text="My Locations"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlCompat" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragmentSearch_recyeclerView_userItemPreview"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="2dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragmentSearch_txtDef"
+                tools:ignore="RtlCompat"
+                 />
+
+            <View
+                android:id="@+id/viewDef1"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="5dp"
+                android:background="#F3F1F1"
+
+                app:layout_constraintTop_toBottomOf="@id/fragmentSearch_recyeclerView_userItemPreview" />
+
+            <TextView
+                android:id="@+id/fragmentSearch_TV_recent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Recent"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewDef1"
+                tools:ignore="RtlCompat" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragmentSearch_oldHistoryRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingStart="10dp"
+                android:paddingTop="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentSearch_TV_recent"
+
+                tools:ignore="RtlCompat" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
