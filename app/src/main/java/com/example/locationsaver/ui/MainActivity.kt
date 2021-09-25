@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import com.example.locationsaver.R
 import com.example.locationsaver.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 private const val TAG = "MainActivity"
@@ -22,12 +24,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainActivityBinding: ActivityMainBinding
     lateinit var navigationController: NavController
     lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var navigationView: NavigationView
+//    lateinit var drawerLayout: DrawerLayout
+    lateinit var navigationView: BottomNavigationView
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         super.onCreate(savedInstanceState)
         mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initViews()
@@ -39,14 +42,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNavigationDrawer() {
+//        navigationView.setupWithNavController(navigationController)
         navigationView.setupWithNavController(navigationController)
-        setupActionBarWithNavController(navigationController, appBarConfiguration)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
 
     private fun initViews() {
-        navigationView = mainActivityBinding.activityMainNavigationView
-        drawerLayout = mainActivityBinding.activityMainDrawerLayout
+        navigationView = mainActivityBinding.fragmentHomeBottomNav
+//        drawerLayout = mainActivityBinding.activityMainDrawerLayout
         toolbar = mainActivityBinding.activityMainToolBar
         setSupportActionBar(toolbar)
         val navHost =
@@ -57,14 +64,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.favouriteFragment,
                 R.id.locationsFragment,
-
-                ), drawerLayout
+                )
         )
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navigationController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        return true
     }
 
 

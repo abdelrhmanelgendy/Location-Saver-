@@ -3,19 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.LocationsFragment"
-    >
+    tools:context=".fragments.LocationsFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
-
-        android:padding="5dp"
+        android:id="@+id/fragmentAllLocation_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragmentAllLocation_recyclerView"
+        android:background="#54ECECEC"
+        android:padding="5dp"
         android:scrollbars="vertical"
         tools:listitem="@layout/custome_item_show_locations_all_locations"
+        android:layoutAnimation="@anim/recycler_view_fade_in_layout_animator"
 
-         />
+        />
 
 </FrameLayout>

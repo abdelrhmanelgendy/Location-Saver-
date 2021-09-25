@@ -29,6 +29,7 @@ import com.example.locationsaver.R
 import com.example.locationsaver.databases.local.LocationRoomBuilder
 import com.example.locationsaver.pojo.AddressedLocation
 import com.example.locationsaver.pojo.SavedLocation
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
@@ -74,6 +75,21 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
 
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as  AppCompatActivity).supportActionBar?.hide()
+        activity?.findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility =
+            View.GONE
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility =
+            View.VISIBLE
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireContext() as AppCompatActivity).supportActionBar?.show()
 
@@ -113,8 +129,7 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
         }
         txtInput_ET_name.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId==EditorInfo.IME_ACTION_DONE)
-                {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     hideSoftKey()
                     return true
                 }
@@ -126,13 +141,13 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
     }
 
     private fun hideSoftKey() {
-        var view=requireActivity().currentFocus
-        if (view==null)
-        {
-            view= View(requireContext())
+        var view = requireActivity().currentFocus
+        if (view == null) {
+            view = View(requireContext())
         }
-        val inputMethodManager=requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken,0)
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 

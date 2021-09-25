@@ -33,6 +33,7 @@ import com.example.locationsaver.databases.local.LocationsViewModel
 import com.example.locationsaver.pojo.AddressedLocation
 import com.example.locationsaver.pojo.HistorySearchedLocations
 import com.example.locationsaver.pojo.SavedLocation
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -62,7 +63,10 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
     lateinit var fragmentSearchbtnBack: ImageView
     lateinit var geocoder: Geocoder
     var enteredSearch: String? = null
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility=View.GONE
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -97,6 +101,8 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
         fragmentSearchbtnBack.setOnClickListener {
             hideSoftKeys()
             requireActivity().onBackPressed()
+//            findNavController().navigate(SearchForPlaceFragmentDirections.actionSearchForPlaceFragmentToHomeFragment()
+
         }
 
     }
@@ -117,14 +123,14 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
                 Collections.reverse(it)
                 searchHistoryAdapter.locationHistoryList.addAll(it)
                 searchHistoryAdapter.notifyDataSetChanged()
-                if (it.size>0&&it.get(0).latitude.equals("")) {
+                if (it.size > 0 && it.get(0).latitude.equals("")) {
                     fragmentSearchOldHistoryRecycler.visibility =
                         View.INVISIBLE
                     fragmentSearchTVRecent.visibility =
                         View.INVISIBLE
                 } else {
                     Log.d(TAG, "getHistory: ${it.size}")
-                    fragmentSearchLayoutOldItems.visibility=View.VISIBLE
+                    fragmentSearchLayoutOldItems.visibility = View.VISIBLE
                     fragmentSearchOldHistoryRecycler.visibility =
                         View.VISIBLE
                     fragmentSearchTVRecent.visibility =
@@ -146,14 +152,14 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
                 Collections.reverse(it)
                 oldUserLocationsAdapter.savedLoactioList.addAll(it)
                 oldUserLocationsAdapter.notifyDataSetChanged()
-                if (it.size>0&&it.get(0).name.equals("") ) {
+                if (it.size > 0 && it.get(0).name.equals("")) {
                     fragmentSearchRecyeclerViewUserItemPreview.visibility =
                         View.INVISIBLE
                     fragmentSearchTxtDef.visibility =
                         View.INVISIBLE
                 } else {
                     Log.d(TAG, "getHistory: ${it.size}")
-                    fragmentSearchLayoutOldItems.visibility=View.VISIBLE
+                    fragmentSearchLayoutOldItems.visibility = View.VISIBLE
                     fragmentSearchRecyeclerViewUserItemPreview.visibility =
                         View.VISIBLE
                     fragmentSearchTxtDef.visibility =
@@ -369,6 +375,12 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
 
     override fun onHistoryClick(savedLoaction: SavedLocation) {
         navigateWithCoordinates(savedLoaction.loctionLatitude, savedLoaction.loctionLongitude)
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility=View.VISIBLE
 
     }
 }

@@ -11,11 +11,7 @@
             android:title="My Locations"
             android:icon="@drawable/ic_baseline_edit_location_alt_24"
             />
-        <item
-            android:id="@+id/favouriteFragment"
-            android:title="favourite"
-            android:icon="@drawable/ic_baseline_favorite_24"
-            />
+
 
 
     </group>

@@ -1,6 +1,7 @@
 package com.example.locationsaver.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
@@ -28,6 +29,7 @@ import com.example.locationsaver.databases.remot.OnFillStateFlowListener
 import com.example.locationsaver.pojo.ImageAdapter
 import com.example.locationsaver.pojo.imageFromWeb.ImageWebSearch
 import com.example.locationsaver.pojo.imageFromWeb.Value
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -262,4 +264,8 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
         requireActivity().menuInflater.inflate(R.menu.web_search_icon, menu)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility=View.GONE
+    }
 }

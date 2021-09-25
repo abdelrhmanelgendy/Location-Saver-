@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.locationsaver.fragments.HomeFragment"
-        android:label="Google map"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_saveLocationActivity"
@@ -19,33 +18,36 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_searchForPlaceFragment"
-            app:destination="@id/searchForPlaceFragment" />
+            app:destination="@id/searchForPlaceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/searchForPlaceFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_blankFragment"
             app:destination="@id/blankFragment" />
         <argument
             android:name="longitude"
-            app:argType="string"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="string" />
         <argument
             android:name="latitude"
-            app:argType="string"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.locationsaver.fragments.FavouriteFragment"
-        android:label="Favorite Locations"
         tools:layout="@layout/fragment_faavourite" />
     <fragment
         android:id="@+id/locationsFragment"
         android:name="com.example.locationsaver.fragments.LocationsFragment"
-        android:label="Saved Locations"
         tools:layout="@layout/fragment_locations" />
     <fragment
         android:id="@+id/saveLocationActivity"
-        android:name="com.example.locationsaver.fragments.SaveLocationActivity"
-        android:label="Save Location">
+        android:name="com.example.locationsaver.fragments.SaveLocationActivity">
         <argument
             android:name="logitude"
             android:defaultValue="-1"
@@ -60,8 +62,8 @@
             app:argType="string" />
         <argument
             android:name="imageUrl"
-            app:argType="string"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="string" />
         <argument
             android:name="comeStatus"
             android:defaultValue="-1"
@@ -72,31 +74,33 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/webSearchActivity"
-        android:name="com.example.locationsaver.fragments.WebSearchActivity"
-        android:label="WebSearchActivity" >
+        android:name="com.example.locationsaver.fragments.WebSearchActivity">
         <action
             android:id="@+id/action_webSearchActivity_to_saveLocationActivity"
             app:destination="@id/saveLocationActivity"
-            app:popUpTo="@id/saveLocationActivity"
-            app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popUpTo="@id/saveLocationActivity"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/searchForPlaceFragment"
-        android:name="com.example.locationsaver.fragments.SearchForPlaceFragment"
-        android:label="SearchForPlaceFragment" >
+        android:name="com.example.locationsaver.fragments.SearchForPlaceFragment">
         <action
             android:id="@+id/action_searchForPlaceFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/blankFragment"

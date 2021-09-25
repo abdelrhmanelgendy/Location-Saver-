@@ -1,57 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <data>
 
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/activityMain_drawerLayout"
+    <!--    <androidx.drawerlayout.widget.DrawerLayout-->
+    <!--        android:id="@+id/activityMain_drawerLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        tools:context=".ui.MainActivity"-->
+    <!--        tools:openDrawer="start">-->
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity"
-        tools:openDrawer="start">
+        android:orientation="vertical">
 
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/activityMain_toolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.Toolbar
-                app:menu="@menu/main_activity_menu_search"
-                android:layout_marginTop="6dp"
-                android:id="@+id/activityMain_toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-
-                />
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:visibility="gone"
+            app:menu="@menu/main_activity_menu_search" />
 
 
-            <fragment
-                android:id="@+id/activityMain_frameLayout"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/main_activity_navigation" />
+        <fragment
+
+            android:id="@+id/activityMain_frameLayout"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentHome_bottomNav"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/main_activity_navigation" />
+
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/fragmentHome_bottomNav"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    app:menu="@menu/navigation_drawer_menue"
+    app:layout_constraintBottom_toBottomOf="parent"
 
 
+    />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/activityMain_navigationView"
-            android:layout_width="230dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/navigation_drawer_header"
-            app:menu="@menu/navigation_drawer_menue" />
+    <!--        <com.google.android.material.navigation.NavigationView-->
+    <!--            android:id="@+id/activityMain_navigationView"-->
+    <!--            android:layout_width="230dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_gravity="start"-->
+    <!--            app:headerLayout="@layout/navigation_drawer_header"-->
+    <!--            app:menu="@menu/navigation_drawer_menue" />-->
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+    <!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 
 
 </layout>

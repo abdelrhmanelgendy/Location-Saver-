@@ -92,6 +92,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         super.onAttach(context)
         sharedPreferences =
             requireActivity().getSharedPreferences(MAP_TYPE_SHARED_FILE, Context.MODE_PRIVATE)
+
     }
 
     override fun onCreateView(
