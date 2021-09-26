@@ -7,7 +7,7 @@ I Used :
   <li>MVVM & State FLow</li>
   <li>Architecture component</li>
   <li>Google maps & Geocoder</li>
-  <li>Retrofite</li>
+  <li>Retrofit</li>
   <li>Room</li>
   </ul>
   </br>
