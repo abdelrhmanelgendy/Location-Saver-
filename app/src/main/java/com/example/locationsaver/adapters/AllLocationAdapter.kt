@@ -70,7 +70,7 @@ class AllLocationAdapter(var context: Context,var onLocationClickListener: OnLoc
             txtLocationAddress.text = "Address: ${location.loctionAddress.trim()}"
 
             imgLocationImage.setImageBitmap(location.image)
-            txtLocationDate.text = location.date + " " + location.time
+            txtLocationDate.text = location.date + "   " + location.time
 
             imgLocationImageOPenInMap.setOnClickListener { onLocationClickListener.onLocationClick(it,location) }
             imgLocationImageShareText.setOnClickListener { onLocationClickListener.onLocationClick(it,location) }

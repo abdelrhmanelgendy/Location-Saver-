@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.locationsaver.Helper.InternerConnection
 import com.example.locationsaver.R
 import com.example.locationsaver.adapters.OldUserLocationsAdapter
 import com.example.locationsaver.adapters.OnOldHistoryClickListener
@@ -187,7 +188,14 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
             : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    searchForLocation(v?.text.toString())
+                    if (InternerConnection.isConnected(requireContext()))
+                    {
+                        searchForLocation(v?.text.toString())
+                    }
+                    else
+                    {
+                        InternerConnection.makeAToast(requireContext())
+                    }
                     return true
                 }
                 return false

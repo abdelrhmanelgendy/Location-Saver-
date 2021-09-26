@@ -18,9 +18,10 @@ import com.example.locationsaver.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
-private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
+    private  val TAG = "MainActivity"
+
     lateinit var mainActivityBinding: ActivityMainBinding
     lateinit var navigationController: NavController
     lateinit var appBarConfiguration: AppBarConfiguration
@@ -54,8 +55,8 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         navigationView = mainActivityBinding.fragmentHomeBottomNav
 //        drawerLayout = mainActivityBinding.activityMainDrawerLayout
-        toolbar = mainActivityBinding.activityMainToolBar
-        setSupportActionBar(toolbar)
+//        toolbar = mainActivityBinding.activityMainToolBar
+//        setSupportActionBar(toolbar)
         val navHost =
             supportFragmentManager.findFragmentById(R.id.activityMain_frameLayout) as NavHostFragment
         navigationController = navHost.findNavController()

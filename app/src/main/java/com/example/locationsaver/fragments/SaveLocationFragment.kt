@@ -77,7 +77,7 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as  AppCompatActivity).supportActionBar?.hide()
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         activity?.findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility =
             View.GONE
 
@@ -177,7 +177,7 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
     //
     private fun userCancel() {
 
-
+requireActivity().onBackPressed()
     }
 
     //
@@ -232,7 +232,7 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
         lifecycleScope.launch(Dispatchers.Main)
         {
             Toast.makeText(requireContext(), "Location Saved", Toast.LENGTH_LONG).show()
-
+            requireActivity().onBackPressed()
         }
 
     }

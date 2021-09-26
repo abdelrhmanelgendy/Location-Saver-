@@ -2,7 +2,6 @@ package com.example.locationsaver.fragments
 
 import android.Manifest
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -20,23 +19,22 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.ImageViewCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
+import com.example.locationsaver.Helper.BitmapResizer
 import com.example.locationsaver.R
-import com.example.locationsaver.fragments.SaveLocationActivity
-import com.example.locationsaver.fragments.SaveLocationActivityArgs
+import com.example.locationsaver.databases.local.LocationRoomBuilder
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.squareup.haha.perflib.Main
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -51,10 +49,10 @@ private const val MAP_TYPE = "map_type"
 private const val RELATIVE_LAYOUT_DOWN_HEIGH = 65
 private const val RELATIVE_LAYOUT_UP_HEIGH = 315
 private const val MAP_ZOOMING = 18f
-
+lateinit var currentUserLatLng: LatLng
 
 class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
-    PopupMenu.OnMenuItemClickListener {
+    PopupMenu.OnMenuItemClickListener, GoogleMap.OnMarkerClickListener {
 
 
     override fun onStart() {
@@ -68,6 +66,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     lateinit var imgShareLocationInGoogleMaps: ImageView
     lateinit var imgSearchLocationByname: ImageView
     lateinit var imgChangeMapType: ImageView
+    lateinit var imgShowAllLocations: ImageView
 
     var listOfMarkers = ArrayList<Marker>()
     lateinit var relativeLayoutInfos: RelativeLayout
@@ -108,12 +107,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         initMap(requireActivity())
 
 
+
+
         return homeFragmentView
     }
 
 
     private fun initViews(homeFragmentView: View) {
-        val drawerLayout: DrawerLayout
         imgUserLocation = homeFragmentView.findViewById(R.id.fragmentHome_imgGetUserLocation)
         imgCollapseRelative =
             homeFragmentView.findViewById(R.id.circularImag_def2)
@@ -129,6 +129,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         progressData = homeFragmentView.findViewById(R.id.fragmentHome_progrssGettingData)
         btnSaveLocation = homeFragmentView.findViewById(R.id.fragmentHome_btnSaveLocation)
         imgSearchLocationByname = homeFragmentView.findViewById(R.id.fragmentHome_imgSearch)
+        imgShowAllLocations = homeFragmentView.findViewById(R.id.fragmentHome_imgAllLocations)
         imgChangeMapType = homeFragmentView.findViewById(R.id.fragmentHome_imgMapType)
         imgSearchLocationByname.setOnClickListener {
 
@@ -144,8 +145,36 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         btnSaveLocation.setOnClickListener(this)
         imgShareLocationAsText.setOnClickListener(this)
         imgChangeMapType.setOnClickListener(this)
+        imgShowAllLocations.setOnClickListener(this)
 
 
+    }
+
+    fun locateEveryLocationOnTheMap() {
+        if (!::currentUserPosition.isInitialized)
+        {
+            return
+        }
+        GlobalScope.launch(Dispatchers.Default) {
+            val allLocations = LocationRoomBuilder.buildDataBase(requireContext())
+                .LocationDao().getAllLocations()
+            for (i in allLocations) {
+                val location = i
+                val latLng =
+                    LatLng(
+                        location.loctionLatitude.toDouble(),
+                        location.loctionLongitude.toDouble()
+                    )
+
+                val resizedBitmap = BitmapResizer.getResizedBitmap(location.image!!, 120, 80)
+                val fromBitmap = BitmapDescriptorFactory.fromBitmap(resizedBitmap)
+                withContext(Dispatchers.Main) {
+                    addMarker(latLng, fromBitmap)
+                    animateCamera(currentUserPosition, 200, 7f)
+
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
@@ -158,9 +187,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
 
             R.id.fragmentHome_btnSaveLocation -> saveUserCurrentLocation()
             R.id.fragmentHome_imgMapType -> changeMapType(v)
+            R.id.fragmentHome_imgAllLocations -> locateEveryLocationOnTheMap()
 
         }
     }
+
 
     private fun changeMapType(v: View) {
 
@@ -176,17 +207,57 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         popupMenu.show()
     }
 
-    private fun saveUserCurrentLocation() {
-        val fullAddress = buildFullAddressStringBuilderOfAddress(address!!)
-        val latitude = address?.latitude
-        val longitude = address?.longitude
 
-        val actionHomeDirections = HomeFragmentDirections.actionHomeFragmentToSaveLocationActivity()
-        actionHomeDirections.setAddress(fullAddress.toString())
-        actionHomeDirections.setLatitude(latitude.toString())
-        actionHomeDirections.setLogitude(longitude.toString())
-        actionHomeDirections.setComeStatus("fromHome")
-        findNavController().navigate(actionHomeDirections)
+    private fun saveUserCurrentLocation() {
+        var isLocationFound = false
+        runBlocking {
+
+
+            GlobalScope.launch(Dispatchers.IO) {
+                val locationList = LocationRoomBuilder.buildDataBase(requireContext())
+                    .LocationDao().getAllLocations()
+                locationList.forEach {
+                    Log.d(
+                        TAGInit,
+                        "saveUserCurrentLocation: ${it.loctionAddress}  ${
+                            buildFullAddressStringBuilderOfAddress(address!!)
+                        }"
+                    )
+
+                    if (it.loctionAddress.trim()
+                            .equals(buildFullAddressStringBuilderOfAddress(address!!).trim())
+                    ) {
+                        withContext(Dispatchers.Main)
+                        {
+                            Toast.makeText(
+                                requireContext(),
+                                "Location Already Exists",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            isLocationFound = true
+                        }
+                    }
+                }
+                if (!isLocationFound)
+                {
+                    val fullAddress = buildFullAddressStringBuilderOfAddress(address!!)
+                    val latitude = address?.latitude
+                    val longitude = address?.longitude
+
+                    val actionHomeDirections = HomeFragmentDirections.actionHomeFragmentToSaveLocationActivity()
+                    actionHomeDirections.setAddress(fullAddress.toString())
+                    actionHomeDirections.setLatitude(latitude.toString())
+                    actionHomeDirections.setLogitude(longitude.toString())
+                    actionHomeDirections.setComeStatus("fromHome")
+                    withContext(Dispatchers.Main)
+                    {
+                        findNavController().navigate(actionHomeDirections)
+
+                    }
+                }
+            }
+        }
+
 
 
     }
@@ -218,7 +289,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
                     + address?.longitude.toString()
         )
         addressToShare.append("\nGoogle Map:\n")
-        addressToShare.append(getGoogleMapShareFormat(address?.latitude!!,address?.longitude!!))
+        addressToShare.append(getGoogleMapShareFormat(address?.latitude!!, address?.longitude!!))
         val shareIntent = Intent()
         shareIntent.also {
             it.action = Intent.ACTION_SEND
@@ -269,11 +340,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     override fun onMapReady(map: GoogleMap) {
         Log.d(TAGInit, "initMap: Map Created Sucessffuly")
         googleMap = map
-        val map_type =getCurrentMapTypeFromShared()
-        if (map_type!=NO_TYPE)
-        {
+        val map_type = getCurrentMapTypeFromShared()
+        if (map_type != NO_TYPE) {
             changeGoogleMapType(map_type)
         }
+        googleMap.setOnMarkerClickListener(this)
 
 
         googleMap.uiSettings.isCompassEnabled = true
@@ -308,6 +379,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         for (marker in listOfMarkers) {
             marker.remove()
         }
+
+
         setUpLocationOnMap(latLng)
     }
 
@@ -386,7 +459,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
                             val geoLocationAddress = getGeoLocationByLatLng(latLng)
                             setUpDataInViews(geoLocationAddress)
                             setImageUserLocationTint(R.color.whiteBlue)
-
+                            currentUserLatLng = latLng
                             Log.d(TAGInit, "onComplete: ${geoLocationAddress.toString()}")
 
                         }
@@ -450,8 +523,20 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     ) {
         val markerOptions = MarkerOptions()
         markerOptions.position(position)
+
         val markerAdded = googleMap.addMarker(markerOptions)
         listOfMarkers.add(markerAdded!!)
+    }
+
+    fun addMarker(
+        position: LatLng, bitmapDescriptor: BitmapDescriptor
+    ) {
+        val markerOptions = MarkerOptions()
+        markerOptions.position(position)
+        markerOptions.icon(bitmapDescriptor)
+        val markerAdded = googleMap.addMarker(markerOptions)
+        listOfMarkers.add(markerAdded!!)
+
     }
 
     override fun onRequestPermissionsResult(
@@ -465,10 +550,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
                 (grantResults.get(1) == PackageManager.PERMISSION_GRANTED)
             ) {
                 getUserCurrentLocation()
-                getUserCurrentLocation()
-                getUserCurrentLocation()
-                getUserCurrentLocation()
-                getUserCurrentLocation()
+
             }
 
     }
@@ -630,14 +712,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
         editor.apply()
 
     }
-    fun getCurrentMapTypeFromShared():Int
-    {
+
+    fun getCurrentMapTypeFromShared(): Int {
         return sharedPreferences.getInt(MAP_TYPE, NO_TYPE)
 
     }
-    fun getGoogleMapShareFormat(lat:Double,lon:Double):String
-    {
+
+    fun getGoogleMapShareFormat(lat: Double, lon: Double): String {
         return "https://maps.google.com/maps?q=${lat}%2c${lon}"
+    }
+
+    override fun onMarkerClick(p0: Marker): Boolean {
+        animateCamera(p0.position, 800, 15f)
+        return true
     }
 
 

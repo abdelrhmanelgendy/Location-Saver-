@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.locationsaver.Helper.InternerConnection
 import com.example.locationsaver.R
 import com.example.locationsaver.adapters.OnImageClickListener
 import com.example.locationsaver.adapters.WebImageAdapter
@@ -96,13 +97,12 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
                 requireActivity().onBackPressed()
             }
         )
-        txt_ET_search.addTextChangedListener(object :TextWatcher
-        {
+        txt_ET_search.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                linearLayoutNoResult.visibility=View.INVISIBLE
+                linearLayoutNoResult.visibility = View.INVISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -111,10 +111,18 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
         txt_ET_search.setOnEditorActionListener(object :
             TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+
                 if (v?.id == R.id.activityWebSearch_ET_searchText &&
                     actionId == EditorInfo.IME_ACTION_SEARCH
                 ) {
-                    startSearching(v.text.toString())
+                    if (internetConnectionOk()) {
+                        startSearching(v.text.toString())
+                    }
+                    else
+                    {
+                        InternerConnection.makeAToast(requireContext())
+                    }
+
                 }
 
                 return true
@@ -143,6 +151,10 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 
     }
 
+    private fun internetConnectionOk(): Boolean {
+        return InternerConnection.isConnected(requireContext())
+    }
+
     private fun startSearching(searchText: String) {
 
         if (!searchText.equals("") && !searchText.equals(lastSearchText)) {
@@ -151,7 +163,7 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 //            requireActivity().
 
             Log.d(TAG, "Hit API with " + searchText)
-            linearLayoutNoResult.visibility=View.INVISIBLE
+            linearLayoutNoResult.visibility = View.INVISIBLE
             setViewsVisibity(true)
             hitApi(searchText)
             lastSearchText = searchText
@@ -198,11 +210,9 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
                     Log.d(TAG, "onCreate: ${imageList.toString()}")
                     Log.d(TAG, "onCreate: ${imageList.size}")
                     if (webImageAdapter.imageList.size == 0) {
-                        linearLayoutNoResult.visibility=View.VISIBLE
-                    }
-                    else
-                    {
-                        linearLayoutNoResult.visibility=View.INVISIBLE
+                        linearLayoutNoResult.visibility = View.VISIBLE
+                    } else {
+                        linearLayoutNoResult.visibility = View.INVISIBLE
                     }
                 }
         }
@@ -266,6 +276,7 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility=View.GONE
+        requireActivity().findViewById<BottomNavigationView>(R.id.fragmentHome_bottomNav)?.visibility =
+            View.GONE
     }
 }
