@@ -10,4 +10,12 @@ I Used :
   <li>Retrofite</li>
   <li>Room</li>
   </ul>
+  </br>
   
+  
+  
+
+https://user-images.githubusercontent.com/48160574/134804739-251d43f2-8673-49be-90c5-6da7a4f6a046.mp4
+
+
+![location saver MockUp](https://user-images.githubusercontent.com/48160574/134804713-0ba74d62-b81a-49b3-be81-ebaed180a2be.jpg)
