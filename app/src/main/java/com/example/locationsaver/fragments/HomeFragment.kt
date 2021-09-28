@@ -33,7 +33,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.squareup.haha.perflib.Main
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -340,6 +339,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     override fun onMapReady(map: GoogleMap) {
         Log.d(TAGInit, "initMap: Map Created Sucessffuly")
         googleMap = map
+        googleMap.isTrafficEnabled=true
         val map_type = getCurrentMapTypeFromShared()
         if (map_type != NO_TYPE) {
             changeGoogleMapType(map_type)

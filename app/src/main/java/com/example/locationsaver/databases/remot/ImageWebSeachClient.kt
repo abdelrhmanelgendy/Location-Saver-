@@ -1,9 +1,11 @@
 package com.example.locationsaver.databases.remot
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.locationsaver.pojo.imageFromWeb.*
+import com.example.locationsaver.repository.ImagesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,10 +14,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ImageWebSeachClient() : ViewModel() {
-    companion object {
-        lateinit var onFillStateFlowListener: OnFillStateFlowListener
-    }
+class ImageViewModel @ViewModelInject constructor(var repository: ImagesRepository) : ViewModel() {
+
 
     val pivotSuggestions = List<PivotSuggestion>(1) { PivotSuggestion("-1", List<Any>(1) {}) }
     val values = List<Value>(1) {
@@ -38,34 +38,19 @@ class ImageWebSeachClient() : ViewModel() {
     )
 
 
-    val imageStateFlow: MutableStateFlow<ImageWebSearch> =
-        MutableStateFlow<ImageWebSearch>(imageWebSearch)
+    val imageStateFlow: MutableStateFlow<List<Value>> =
+        MutableStateFlow<List<Value>>(values)
 
-    fun getData(searchQyery: String, country: String, reapiApiHost: String, reapiApiKey: String) {
-        val imageWebSearchAPI = Retrofit.Builder()
-            .baseUrl("https://bing-image-search1.p.rapidapi.com/images/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build().create(ImageWebSearchAPI::class.java)
-        viewModelScope
-            .launch(Dispatchers.IO) {
-                val imageWebSearch = imageWebSearchAPI.searchForPhotoByName(
-                    rapidApiHost = reapiApiHost,
-                    rapidApiKey = reapiApiKey,
-                    searchQyery,
-                    country
-                )
-                    .body()
-                imageStateFlow.emit(imageWebSearch!!)
-                onFillStateFlowListener.fillData(imageWebSearch)
-                Log.d("WebSearchActivity", "getData: complete")
-
-            }
-
+    suspend fun getData(
+        searchQyery: String,
+        country: String,
+        reapiApiHost: String,
+        reapiApiKey: String
+    ) {
+        val imageResponse = repository.getImages(reapiApiHost, reapiApiKey, searchQyery, country)
+        val imagesUrl = imageResponse.body()?.value
+        imageStateFlow.value = imagesUrl!!
     }
 
 
-}
-
-interface OnFillStateFlowListener {
-    fun fillData(imageWebSearch: ImageWebSearch)
 }

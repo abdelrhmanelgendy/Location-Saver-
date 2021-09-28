@@ -23,8 +23,7 @@ import com.example.locationsaver.adapters.OnLocationClickListener
 import com.example.locationsaver.databases.local.LocationRoomBuilder
 import com.example.locationsaver.databases.local.LocationsViewModel
 import com.example.locationsaver.pojo.SavedLocation
-import com.google.android.gms.location.LocationServices
-import com.squareup.haha.perflib.Main
+
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.collect

@@ -17,15 +17,18 @@ import com.example.locationsaver.R
 import com.example.locationsaver.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.EntryPoint
 
 
+@EntryPoint
 class MainActivity : AppCompatActivity() {
-    private  val TAG = "MainActivity"
+    private val TAG = "MainActivity"
 
     lateinit var mainActivityBinding: ActivityMainBinding
     lateinit var navigationController: NavController
     lateinit var appBarConfiguration: AppBarConfiguration
-//    lateinit var drawerLayout: DrawerLayout
+
+    //    lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: BottomNavigationView
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
@@ -37,8 +40,6 @@ class MainActivity : AppCompatActivity() {
         initViews()
         createNavigationDrawer()
 
-
-        
 
     }
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.favouriteFragment,
                 R.id.locationsFragment,
-                )
+            )
         )
 
     }

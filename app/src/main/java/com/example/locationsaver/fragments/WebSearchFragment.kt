@@ -25,8 +25,8 @@ import com.example.locationsaver.Helper.InternerConnection
 import com.example.locationsaver.R
 import com.example.locationsaver.adapters.OnImageClickListener
 import com.example.locationsaver.adapters.WebImageAdapter
-import com.example.locationsaver.databases.remot.ImageWebSeachClient
-import com.example.locationsaver.databases.remot.OnFillStateFlowListener
+import com.example.locationsaver.databases.remot.ImageViewModel
+
 import com.example.locationsaver.pojo.ImageAdapter
 import com.example.locationsaver.pojo.imageFromWeb.ImageWebSearch
 import com.example.locationsaver.pojo.imageFromWeb.Value
@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-lateinit var imageWebSeachClient: ImageWebSeachClient
+lateinit var imageViewModel: ImageViewModel
 lateinit var gridLayoutManager: GridLayoutManager
 private const val TAG = "WebSearchActivity"
 const val SEARCH_COUNTRY = "Egypt"
@@ -65,6 +65,7 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        imageViewModel=ViewModelProvider(this).get(ImageViewModel::class.java)
         initViews(view)
 
 
@@ -130,18 +131,8 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
         })
 
 
-        ImageWebSeachClient.onFillStateFlowListener = object : OnFillStateFlowListener {
-            override fun fillData(imageWebSearch: ImageWebSearch) {
-                GlobalScope.launch(Dispatchers.Main) {
-                    webImageAdapter.notifyDataSetChanged()
-                    setViewsVisibity(false)
-                }
 
-            }
-        }
         gridLayoutManager = GridLayoutManager(requireContext(), 4)
-        imageWebSeachClient = ViewModelProvider(this).get(ImageWebSeachClient::class.java)
-
         webImageAdapter = WebImageAdapter(requireContext(), this)
         recyclerView.also {
             it.layoutManager = gridLayoutManager
@@ -192,17 +183,17 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 
 
         Log.d(TAG, "hitApi: ")
-        imageWebSeachClient.getData(
-            searchText,
-            SEARCH_COUNTRY,
-            reapiApiKey = resources.getString(R.string.x_rapidapi_key),
-            reapiApiHost = resources.getString(R.string.x_rapidapi_host)
-        )
-        GlobalScope.launch(Dispatchers.Main) {
 
-            imageWebSeachClient.imageStateFlow
+        GlobalScope.launch(Dispatchers.Main) {
+            imageViewModel.getData(
+                searchText,
+                SEARCH_COUNTRY,
+                reapiApiKey = resources.getString(R.string.x_rapidapi_key),
+                reapiApiHost = resources.getString(R.string.x_rapidapi_host)
+            )
+            imageViewModel.imageStateFlow
                 .collect {
-                    val imageList: ArrayList<ImageAdapter> = buildImageFromResult(it.value)
+                    val imageList: ArrayList<ImageAdapter> = buildImageFromResult(it)
 
                     webImageAdapter.imageList.clear()
                     webImageAdapter.imageList.addAll(imageList)
