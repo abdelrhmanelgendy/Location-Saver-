@@ -15,37 +15,35 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.locationsaver.Helper.InternerConnection
+import com.example.locationsaver.helper.InternerConnection
 import com.example.locationsaver.R
 import com.example.locationsaver.adapters.OldUserLocationsAdapter
 import com.example.locationsaver.adapters.OnOldHistoryClickListener
 import com.example.locationsaver.adapters.SearchHistoryAdapter
 import com.example.locationsaver.adapters.onHistoryItemClickListener
-import com.example.locationsaver.databases.local.HistoryViewModel
-import com.example.locationsaver.databases.local.LocationRoomBuilder
-import com.example.locationsaver.databases.local.LocationsViewModel
 import com.example.locationsaver.pojo.AddressedLocation
 import com.example.locationsaver.pojo.HistorySearchedLocations
 import com.example.locationsaver.pojo.SavedLocation
+import com.example.locationsaver.viewModel.DataBaseViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.util.*
 
 private const val TAG = "SearchForPlaceActivity"
 
 class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
     onHistoryItemClickListener, OnOldHistoryClickListener {
-    lateinit var historyViewModel: HistoryViewModel
-    lateinit var locationViewModel: LocationsViewModel
+    val dataBaseViewModel:DataBaseViewModel by lazy {
+        getViewModel<DataBaseViewModel>()
+    }
     lateinit var oldHistoryLinearLayoutManager: LinearLayoutManager
     lateinit var oldUserItemsGridLayoutManager: LinearLayoutManager
     lateinit var searchHistoryAdapter: SearchHistoryAdapter
@@ -117,9 +115,10 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
     }
 
     private fun getHistory() {
-        historyViewModel.getData(requireContext())
+
         lifecycleScope.launch {
-            historyViewModel.historyMutableStateFlow.collect {
+            dataBaseViewModel.getAllHistory()
+            dataBaseViewModel.historyLiveData.collect {
                 searchHistoryAdapter.locationHistoryList.clear()
                 Collections.reverse(it)
                 searchHistoryAdapter.locationHistoryList.addAll(it)
@@ -145,9 +144,10 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
     }
 
     private fun getOldItems() {
-        locationViewModel.getData(requireContext())
+
         lifecycleScope.launch {
-            locationViewModel.locationMutableStateFlow.collect {
+            dataBaseViewModel.getSavedLocations()
+            dataBaseViewModel.locationsLiveData.collect {
                 Log.d(TAG, "getOldItems: ${it}")
                 oldUserLocationsAdapter.savedLoactioList.clear()
                 Collections.reverse(it)
@@ -176,9 +176,7 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
     fun init() {
         geocoder = Geocoder(requireContext())
 
-        historyViewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
 
-        locationViewModel = ViewModelProvider(this).get(LocationsViewModel::class.java)
 
 
         createHistoryRecyclerView()
@@ -236,8 +234,7 @@ class SearchForPlaceFragment : Fragment(R.layout.fragment_search_for_location),
             HistorySearchedLocations(textEntered, textResult, longtude, latitude)
         lifecycleScope.launch(Dispatchers.IO)
         {
-            LocationRoomBuilder.buildDataBase(requireContext())
-                .historyDao().inserHistory(historySearchedLocations)
+           dataBaseViewModel.insertHistory(historySearchedLocations)
 
         }
     }

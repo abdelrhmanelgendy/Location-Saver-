@@ -3,12 +3,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/homeFragment"
-            android:title="Home"
+            android:title="@string/Home"
             android:icon="@drawable/ic_baseline_home_24"
             />
         <item
             android:id="@+id/locationsFragment"
-            android:title="My Locations"
+            android:title="@string/MyLocations"
             android:icon="@drawable/ic_baseline_edit_location_alt_24"
             />
 

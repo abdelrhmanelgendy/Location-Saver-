@@ -17,35 +17,36 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.locationsaver.Helper.InternerConnection
+import com.example.locationsaver.helper.InternerConnection
 import com.example.locationsaver.R
 import com.example.locationsaver.adapters.OnImageClickListener
 import com.example.locationsaver.adapters.WebImageAdapter
-import com.example.locationsaver.databases.remot.ImageViewModel
-
 import com.example.locationsaver.pojo.ImageAdapter
-import com.example.locationsaver.pojo.imageFromWeb.ImageWebSearch
 import com.example.locationsaver.pojo.imageFromWeb.Value
+import com.example.locationsaver.viewModel.OnFillStateFlowListener
+import com.example.locationsaver.viewModel.RetrofitViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
-lateinit var imageViewModel: ImageViewModel
 lateinit var gridLayoutManager: GridLayoutManager
 private const val TAG = "WebSearchActivity"
 const val SEARCH_COUNTRY = "Egypt"
 
 class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickListener {
     lateinit var webImageAdapter: WebImageAdapter
-
+val retrofitViewModel by lazy {
+    getViewModel<RetrofitViewModel>()
+}
 
     //Views
 
@@ -65,7 +66,6 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageViewModel=ViewModelProvider(this).get(ImageViewModel::class.java)
         initViews(view)
 
 
@@ -131,8 +131,15 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
         })
 
 
+        retrofitViewModel.onFillStateFlowListener = object : OnFillStateFlowListener {
+            override fun fillData(values: List<Value>) {
+                webImageAdapter.notifyDataSetChanged()
+                setViewsVisibity(false)
 
+            }
+        }
         gridLayoutManager = GridLayoutManager(requireContext(), 4)
+
         webImageAdapter = WebImageAdapter(requireContext(), this)
         recyclerView.also {
             it.layoutManager = gridLayoutManager
@@ -184,16 +191,15 @@ class WebSearchActivity : Fragment(R.layout.fragment_web_search), OnImageClickLi
 
         Log.d(TAG, "hitApi: ")
 
-        GlobalScope.launch(Dispatchers.Main) {
-            imageViewModel.getData(
+        lifecycleScope.launch {
+            retrofitViewModel.getData(
                 searchText,
                 SEARCH_COUNTRY,
                 reapiApiKey = resources.getString(R.string.x_rapidapi_key),
                 reapiApiHost = resources.getString(R.string.x_rapidapi_host)
             )
-            imageViewModel.imageStateFlow
-                .collect {
-                    val imageList: ArrayList<ImageAdapter> = buildImageFromResult(it)
+            retrofitViewModel.imageStateFlow.collect {
+                val imageList: ArrayList<ImageAdapter> = buildImageFromResult(it)
 
                     webImageAdapter.imageList.clear()
                     webImageAdapter.imageList.addAll(imageList)

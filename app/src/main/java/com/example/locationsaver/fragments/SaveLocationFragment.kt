@@ -22,20 +22,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.locationsaver.Helper.BitmabCreator
-import com.example.locationsaver.Helper.FileSizes
-import com.example.locationsaver.Helper.ProgressBarDialog
+import com.example.locationsaver.helper.BitmabCreator
+import com.example.locationsaver.helper.FileSizes
+import com.example.locationsaver.helper.ProgressBarDialog
 import com.example.locationsaver.R
-import com.example.locationsaver.databases.local.LocationRoomBuilder
 import com.example.locationsaver.pojo.AddressedLocation
 import com.example.locationsaver.pojo.SavedLocation
+import com.example.locationsaver.viewModel.DataBaseViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -53,7 +53,9 @@ private const val _SHARED_PREFERNCE_LOCATION_NOTE = "locationNote"
 class SaveLocationActivity : Fragment(), View.OnClickListener {
     var pickedImageUri: String = "-1"
     lateinit var addressedLocation: AddressedLocation
-
+    val dataBaseViewModel = lazy {
+        getViewModel<DataBaseViewModel>()
+    }
 
     //Views
     lateinit var locationImage: ImageView
@@ -177,7 +179,7 @@ class SaveLocationActivity : Fragment(), View.OnClickListener {
     //
     private fun userCancel() {
 
-requireActivity().onBackPressed()
+        requireActivity().onBackPressed()
     }
 
     //
@@ -209,20 +211,18 @@ requireActivity().onBackPressed()
             "In Progress"
         )
         ProgressBarDialog.showProgressDialog()
-        val locationDao = LocationRoomBuilder.buildDataBase(requireContext()).LocationDao()
 
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             val location = getLocationForSaving()
             if (location != null) {
                 Log.d(TAG, "saveLocatoin: ${location.toString()}")
-                locationDao.insertLocation(location)
+                dataBaseViewModel.value.insertLocation(location)
                 delay(500)
                 ProgressBarDialog.dismissProgressDialog()
                 clearData()
 
             }
 
-            Log.d(TAG, "saveLocatoin: " + locationDao.getAllLocations())
         }
 
 

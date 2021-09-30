@@ -21,7 +21,7 @@ android {
         multiDexEnabled true
 
         applicationId "com.example.locationsaver"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -77,9 +77,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 
-    //Koin
-    implementation "org.koin:koin-android:2.0.1"
-
+    
     //Maps Services
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.maps.android:android-maps-utils:2.2.3'
@@ -123,6 +121,17 @@ dependencies {
     annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0-alpha01'
      implementation("com.google.dagger:hilt-android:2.38.1")
     annotationProcessor("com.google.dagger:hilt-android-compiler:2.38.1")
+
+    //koin with ViewModel
+    def koin_version= "3.1.2"
+
+    implementation "io.insert-koin:koin-android:$koin_version"
+// Koin Java Compatibility
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
+// Koin for Jetpack WorkManager
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+// Koin for Jetpack Compose
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 }
 kapt {
     correctErrorTypes true

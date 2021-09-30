@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name"></string>
+    <string name="LocationSaver">Location Saver</string>
+    <string name="EmailSample">Abdelrhmanelgendy243@gmail.com</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBskE7drlXkeWWf9xVzYpx8jJUCqrddXVY</string>
+    <string name="dummyAddress">Address: El hwanm - itay elbaroud</string>
+    <string name="dummyLatLang">Latitude: 335656.58</string>
+    <string name="dummyLong">Logtude: 335656.58</string>
+    <string name="x_rapidapi_host">bing-image-search1.p.rapidapi.com</string>
+    <string name="x_rapidapi_key">f9cbdffdb3msh01470815c601b1ep1e6f6fjsn6ec55644837d</string>
+    <string name="currentAddress">الموقع الحالي</string>
+    <string name="save">حفظ</string>
+    <string name="searchForPlaceOr">ابحث عن موقع, مكان او علامه مميزه</string>
+    <string name="noResultFound">لم يتم العثور علي نتائج</string>
+    <string name="recent">تاريخ البحث</string>
+    <string name="MyLocations">المواقع المحفوظه</string>
+    <string name="satellite">قمر صناعي</string>
+    <string name="defaulte">طبيعي</string>
+    <string name="Home">الرئيسيه</string>
+
+</resources>

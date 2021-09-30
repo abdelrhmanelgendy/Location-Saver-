@@ -12,5 +12,14 @@
     <string name="dummyLong">Logtude: 335656.58</string>
     <string name="x_rapidapi_host">bing-image-search1.p.rapidapi.com</string>
     <string name="x_rapidapi_key">f9cbdffdb3msh01470815c601b1ep1e6f6fjsn6ec55644837d</string>
+    <string name="currentAddress">Current Location</string>
+    <string name="save">Save</string>
+    <string name="searchForPlaceOr">Search for Place, city, location</string>
+    <string name="noResultFound">No Result Found try \nuse different place name</string>
+    <string name="recent">Recent</string>
+    <string name="MyLocations">My Locations</string>
+    <string name="satellite">satellite</string>
+    <string name="defaulte">default</string>
+    <string name="Home">Home</string>
 
 </resources>

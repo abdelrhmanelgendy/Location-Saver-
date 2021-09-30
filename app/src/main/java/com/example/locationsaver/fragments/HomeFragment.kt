@@ -22,9 +22,9 @@ import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
-import com.example.locationsaver.Helper.BitmapResizer
+import com.example.locationsaver.helper.BitmapResizer
 import com.example.locationsaver.R
-import com.example.locationsaver.databases.local.LocationRoomBuilder
+import com.example.locationsaver.databases.local.LocationDao
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -33,7 +33,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.squareup.haha.perflib.Main
 import kotlinx.coroutines.*
+import org.koin.android.ext.android.get
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -150,13 +152,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     }
 
     fun locateEveryLocationOnTheMap() {
-        if (!::currentUserPosition.isInitialized)
-        {
-            return
-        }
+//        if (!::currentUserPosition.isInitialized) {
+//            return
+//        }
         GlobalScope.launch(Dispatchers.Default) {
-            val allLocations = LocationRoomBuilder.buildDataBase(requireContext())
-                .LocationDao().getAllLocations()
+            val locatoinDao = get<LocationDao>()
+
+            val locationList = locatoinDao.getAllLocations()
+            val allLocations =
+                locatoinDao.getAllLocations()
             for (i in allLocations) {
                 val location = i
                 val latLng =
@@ -213,8 +217,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
 
 
             GlobalScope.launch(Dispatchers.IO) {
-                val locationList = LocationRoomBuilder.buildDataBase(requireContext())
-                    .LocationDao().getAllLocations()
+                val locatoinDao = get<LocationDao>()
+
+                val locationList = locatoinDao.getAllLocations()
                 locationList.forEach {
                     Log.d(
                         TAGInit,
@@ -237,13 +242,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
                         }
                     }
                 }
-                if (!isLocationFound)
-                {
+                if (!isLocationFound) {
                     val fullAddress = buildFullAddressStringBuilderOfAddress(address!!)
                     val latitude = address?.latitude
                     val longitude = address?.longitude
 
-                    val actionHomeDirections = HomeFragmentDirections.actionHomeFragmentToSaveLocationActivity()
+                    val actionHomeDirections =
+                        HomeFragmentDirections.actionHomeFragmentToSaveLocationActivity()
                     actionHomeDirections.setAddress(fullAddress.toString())
                     actionHomeDirections.setLatitude(latitude.toString())
                     actionHomeDirections.setLogitude(longitude.toString())
@@ -256,7 +261,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
                 }
             }
         }
-
 
 
     }
@@ -339,7 +343,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     override fun onMapReady(map: GoogleMap) {
         Log.d(TAGInit, "initMap: Map Created Sucessffuly")
         googleMap = map
-        googleMap.isTrafficEnabled=true
         val map_type = getCurrentMapTypeFromShared()
         if (map_type != NO_TYPE) {
             changeGoogleMapType(map_type)

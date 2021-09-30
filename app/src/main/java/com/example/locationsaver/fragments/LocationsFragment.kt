@@ -21,25 +21,27 @@ import com.example.locationsaver.R
 import com.example.locationsaver.adapters.AllLocationAdapter
 import com.example.locationsaver.adapters.OnLocationClickListener
 import com.example.locationsaver.databases.local.LocationRoomBuilder
-import com.example.locationsaver.databases.local.LocationsViewModel
 import com.example.locationsaver.pojo.SavedLocation
+import com.example.locationsaver.viewModel.DataBaseViewModel
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.collect
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.util.*
 
 private const val TAG = "LocationsFragmentList"
 
 class LocationsFragment : Fragment(R.layout.fragment_locations), OnLocationClickListener {
-    lateinit var locationsViewModel: LocationsViewModel
+    val dataBaseViewModel by lazy {
+        getViewModel<DataBaseViewModel>()
+    }
     lateinit var recyclerView: RecyclerView
     lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var allLocationAdapter: AllLocationAdapter
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        locationsViewModel = ViewModelProvider(this).get(LocationsViewModel::class.java)
-        locationsViewModel.getData(context)
+
     }
 
     override fun onCreateView(
@@ -67,7 +69,8 @@ class LocationsFragment : Fragment(R.layout.fragment_locations), OnLocationClick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            locationsViewModel.locationMutableStateFlow.collect {
+            dataBaseViewModel.getSavedLocations()
+            dataBaseViewModel.locationsLiveData.collect {
                 allLocationAdapter.locationList.clear()
                 Collections.reverse(it)
                 allLocationAdapter.locationList.addAll(it)
@@ -152,15 +155,16 @@ class LocationsFragment : Fragment(R.layout.fragment_locations), OnLocationClick
     }
 
     private fun deleteLocation(savedLocation: SavedLocation) {
-        val locationRoom = LocationRoomBuilder.buildDataBase(requireContext())
-        GlobalScope.launch(IO) {
+
+        lifecycleScope.launch(IO) {
             val job = launch {
-                locationRoom.LocationDao().deleteLocation(savedLocation)
+                dataBaseViewModel.deleteLocation(savedLocation)
             }
             job.invokeOnCompletion {
                 Log.d(TAG, "deleteLocation: ")
                 Log.d(TAG, "deleteLocation: 2")
-                updateUI(savedLocation) }
+                updateUI(savedLocation)
+            }
 
 
         }

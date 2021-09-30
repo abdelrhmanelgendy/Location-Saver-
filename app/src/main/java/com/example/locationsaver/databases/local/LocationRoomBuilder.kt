@@ -17,9 +17,5 @@ abstract class LocationRoomBuilder : RoomDatabase() {
     public abstract fun LocationDao(): LocationDao
     public abstract fun historyDao(): HistoryDao
 
-    companion object {
-        fun buildDataBase(context: Context): LocationRoomBuilder =
-            Room.databaseBuilder(context, LocationRoomBuilder::class.java, "LocationDatabase")
-                .build()
-    }
+
 }

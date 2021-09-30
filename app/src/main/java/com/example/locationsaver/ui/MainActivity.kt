@@ -20,7 +20,6 @@ import com.google.android.material.navigation.NavigationView
 import dagger.hilt.EntryPoint
 
 
-@EntryPoint
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
@@ -64,8 +63,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
-                R.id.favouriteFragment,
-                R.id.locationsFragment,
+                R.id.locationsFragment
             )
         )
 
