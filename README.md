@@ -9,6 +9,10 @@ I Used :
   <li>Google maps & Geocoder</li>
   <li>Retrofit</li>
   <li>Room</li>
+  <li>Dependency Injection with koin</li>
+  <li>Repository</li>
+  
+  
   </ul>
   </br>
   
