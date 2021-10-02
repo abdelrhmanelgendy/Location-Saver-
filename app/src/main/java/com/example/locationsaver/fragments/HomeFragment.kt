@@ -152,9 +152,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     }
 
     fun locateEveryLocationOnTheMap() {
-//        if (!::currentUserPosition.isInitialized) {
-//            return
-//        }
+        if (!::currentUserPosition.isInitialized) {
+            return
+        }
         GlobalScope.launch(Dispatchers.Default) {
             val locatoinDao = get<LocationDao>()
 
@@ -678,7 +678,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 526) {
-
             getUserCurrentLocation()
 
         }

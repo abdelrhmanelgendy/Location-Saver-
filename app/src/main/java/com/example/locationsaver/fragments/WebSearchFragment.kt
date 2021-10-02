@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.locationsaver.BuildConfig
 import com.example.locationsaver.helper.InternerConnection
 import com.example.locationsaver.R
 import com.example.locationsaver.adapters.OnImageClickListener
@@ -195,8 +196,8 @@ val retrofitViewModel by lazy {
             retrofitViewModel.getData(
                 searchText,
                 SEARCH_COUNTRY,
-                reapiApiKey = resources.getString(R.string.x_rapidapi_key),
-                reapiApiHost = resources.getString(R.string.x_rapidapi_host)
+                reapiApiKey = BuildConfig.API_KEY,
+                reapiApiHost = BuildConfig.API_HOST
             )
             retrofitViewModel.imageStateFlow.collect {
                 val imageList: ArrayList<ImageAdapter> = buildImageFromResult(it)

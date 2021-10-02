@@ -13,7 +13,7 @@ class SplahActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splah)
         GlobalScope.launch {
-            delay(3000)
+            delay(1200)
             val intent = Intent(this@SplahActivity,MainActivity::class.java)
             startActivity(intent)
             finish()

@@ -2,6 +2,7 @@ package com.example.locationsaver.ui
 
 import android.app.Application
 import com.example.locationsaver.di.module
+import com.squareup.leakcanary.BuildConfig
 import com.squareup.leakcanary.LeakCanary
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
@@ -14,5 +15,6 @@ class MyApp : Application() {
             androidContext(this@MyApp)
             modules(listOf(module))
         }
+
     }
 }
