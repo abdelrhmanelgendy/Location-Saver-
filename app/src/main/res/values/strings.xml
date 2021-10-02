@@ -10,8 +10,6 @@
     <string name="dummyAddress">Address: El hwanm - itay elbaroud</string>
     <string name="dummyLatLang">Latitude: 335656.58</string>
     <string name="dummyLong">Logtude: 335656.58</string>
-    <string name="x_rapidapi_host">bing-image-search1.p.rapidapi.com</string>
-    <string name="x_rapidapi_key">f9cbdffdb3msh01470815c601b1ep1e6f6fjsn6ec55644837d</string>
     <string name="currentAddress">Current Location</string>
     <string name="save">Save</string>
     <string name="searchForPlaceOr">Search for Place, city, location</string>
