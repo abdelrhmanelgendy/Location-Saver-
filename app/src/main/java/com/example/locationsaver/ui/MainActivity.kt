@@ -27,13 +27,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var navigationController: NavController
     lateinit var appBarConfiguration: AppBarConfiguration
 
-    //    lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: BottomNavigationView
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
+        setTheme(R.style.Theme_LocationSaver)
         super.onCreate(savedInstanceState)
         mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initViews()

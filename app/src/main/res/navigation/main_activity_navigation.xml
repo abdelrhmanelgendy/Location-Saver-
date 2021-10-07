@@ -39,6 +39,7 @@
         android:name="com.example.locationsaver.fragments.LocationsFragment"
         tools:layout="@layout/fragment_locations" />
     <fragment
+        tools:layout="@layout/fragment_save_location"
         android:id="@+id/saveLocationActivity"
         android:name="com.example.locationsaver.fragments.SaveLocationActivity">
         <argument
@@ -70,6 +71,7 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_web_search"
         android:id="@+id/webSearchActivity"
         android:name="com.example.locationsaver.fragments.WebSearchActivity">
         <action
@@ -83,6 +85,7 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_search_for_location"
         android:id="@+id/searchForPlaceFragment"
         android:name="com.example.locationsaver.fragments.SearchForPlaceFragment">
         <action

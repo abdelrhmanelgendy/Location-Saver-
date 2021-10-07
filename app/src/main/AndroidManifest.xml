@@ -15,10 +15,9 @@
         android:label="Location Saver"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LocationSaver"
+        android:theme="@style/Theme.SplashScreenTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.MainActivity"></activity>
-        <activity android:name=".ui.SplahActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

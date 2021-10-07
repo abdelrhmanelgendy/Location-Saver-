@@ -369,9 +369,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
 
 
             getUserCurrentLocation()
+
         }
 
         googleMap.setOnMapLongClickListener { mapLongClicked(it) }
+
 
 
     }
