@@ -133,6 +133,9 @@ dependencies {
     implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
 // Koin for Jetpack Compose
     implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+
 }
 kapt {
     correctErrorTypes true

@@ -3,7 +3,7 @@ package com.example.locationsaver.ui
 import android.app.Application
 import com.example.locationsaver.di.module
 import com.squareup.leakcanary.BuildConfig
-import com.squareup.leakcanary.LeakCanary
+
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

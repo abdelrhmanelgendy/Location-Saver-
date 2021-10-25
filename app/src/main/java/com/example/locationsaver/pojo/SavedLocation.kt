@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "ImageTable")
-data class SavedLocation(
+data class  SavedLocation(
     var name: String,
     var note: String,
     var loctionLatitude: String,
