@@ -58,26 +58,26 @@ class MainActivity : AppCompatActivity() {
         val navHost =
             supportFragmentManager.findFragmentById(R.id.activityMain_frameLayout) as NavHostFragment
         navigationController = navHost.findNavController()
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.locationsFragment
-            )
-        )
+//        appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.homeFragment,
+//                R.id.locationsFragment
+//            )
+//        )
 
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navigationController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-        return true
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(navigationController) || super.onOptionsItemSelected(
-            item
-        )
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//        return navigationController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+//        return true
+//    }
+//
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return item.onNavDestinationSelected(navigationController) || super.onOptionsItemSelected(
+//            item
+//        )
+//    }
 
 
 }

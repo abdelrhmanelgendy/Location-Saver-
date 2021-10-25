@@ -33,7 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.squareup.haha.perflib.Main
+
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.get
 import java.util.*
@@ -62,7 +62,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
     }
 
     lateinit var imgUserLocation: ImageView
-    lateinit var imgCollapseRelative: ImageView
     lateinit var imgShareLocationAsText: ImageView
     lateinit var imgShareLocationInGoogleMaps: ImageView
     lateinit var imgSearchLocationByname: ImageView
@@ -116,8 +115,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
 
     private fun initViews(homeFragmentView: View) {
         imgUserLocation = homeFragmentView.findViewById(R.id.fragmentHome_imgGetUserLocation)
-        imgCollapseRelative =
-            homeFragmentView.findViewById(R.id.circularImag_def2)
         relativeLayoutInfos =
             homeFragmentView.findViewById(R.id.fragmentHome_relativeLocationActions)
         imgShareLocationAsText =
@@ -141,7 +138,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, View.OnClickListener,
 
         //Listeners
         imgUserLocation.setOnClickListener(this)
-        imgCollapseRelative.setOnClickListener({ Log.d(TAGInit, "initViews: ") })
         imgShareLocationInGoogleMaps.setOnClickListener(this)
         btnSaveLocation.setOnClickListener(this)
         imgShareLocationAsText.setOnClickListener(this)
