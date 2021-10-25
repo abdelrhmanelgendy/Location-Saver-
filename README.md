@@ -11,7 +11,7 @@ I Used :
   <li>Room</li>
   <li>Dependency Injection with koin</li>
   <li>Repository</li>
-  <li>Clean Code</li>
+
 
   
   </ul>
